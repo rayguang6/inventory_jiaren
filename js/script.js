@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productTable = document.getElementById('product-table');
 
     exportProductButton.addEventListener('click', () => {
-        exportTableToCSV(productTable, 'product-table.csv', [6, 11]); // Exclude "Status" and "Action" columns
+        exportTableToCSV(productTable, 'product-table.csv', [6, 12]); // Exclude "Status" and "Action" columns
     });
 });
 

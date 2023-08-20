@@ -37,14 +37,15 @@ if(isset($_POST['create_product'])) {
     $type2 = $_POST['type2'];
     $type3 = $_POST['type3'];
     $type4 = $_POST['type4'];
+    $remark = $_POST['remark'];
 
     // Insert data into the database (you need to modify this based on your db.php)
-    $insertSql = "INSERT INTO products (name, place, package, lead_count, min_count, type1, type2, type3, type4) VALUES ('$name', '$place', '$package', '$leadCount', '$minCount' , '$type1', '$type2', '$type3', '$type4')";
+    $insertSql = "INSERT INTO products (name, place, package, lead_count, min_count, type1, type2, type3, type4, remark) VALUES ('$name', '$place', '$package', '$leadCount', '$minCount' , '$type1', '$type2', '$type3', '$type4', '$remark')";
 
     if (mysqli_query($conn, $insertSql)) {
         
         // add to action history
-        $actionDescription = "Created ($name, $place, $package, $leadCount, $minCount, $type1, $type2, $type3, $type4)";
+        $actionDescription = "Created ($name, $place, $package, $leadCount, $minCount, $type1, $type2, $type3, $type4, $remark)";
         createHistory($conn, "CREATE", $actionDescription);
 
         header("Location: index.php");
@@ -74,12 +75,13 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
     $type2 = $p['type2'];
     $type3 = $p['type3'];
     $type4 = $p['type4'];
+    $remark = $p['remark'];
 
     
     if (mysqli_query($conn, $deleteSql)) {
 
         // add to action history
-        $actionDescription = "Deleted ($name, $place, $package, $leadCount, $minCount, $type1, $type2, $type3, $type4)";
+        $actionDescription = "Deleted ($name, $place, $package, $leadCount, $minCount, $type1, $type2, $type3, $type4, $remark)";
         createHistory($conn, "DELETE", $actionDescription);
 
         header("Location: index.php");
@@ -112,7 +114,7 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
 <!-- top navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-success px-4">
   <div class="container-fluid">
-    <a class="navbar-brand" href="@">My Inventory System</a>
+    <a class="navbar-brand" href="index.php">My Inventory System</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -124,7 +126,7 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
           <a class="nav-link active" aria-current="page" href="index.php">Product Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <!-- <a class="nav-link" href="#">Link</a> -->
         </li>
       </ul>
 
@@ -150,7 +152,8 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
                 <td><input type="text" class="form-control" placeholder="Type 1" name="type1" required></td>
                 <td><input type="text" class="form-control" placeholder="Type 2" name="type2" required></td>
                 <td><input type="text" class="form-control" placeholder="Type 3" name="type3" required></td>
-                <td><input type="text" class="form-control" placeholder="Type 4" name="type4" required></td>     
+                <td><input type="text" class="form-control" placeholder="Type 4" name="type4"></td>     
+                <td><input type="textfield" class="form-control" placeholder="Remark" name="remark" ></td>     
                 <td><input type="submit" class="btn btn-success" value="Create Product" name="create_product"></td>                    
             </tr>
         </tbody>
@@ -179,6 +182,7 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
                 <th>Type 2</th>
                 <th>Type 3</th>
                 <th>Type 4</th>
+                <th>Remark</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -204,6 +208,7 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
                     <td><?php echo $product['type2']; ?></td>
                     <td><?php echo $product['type3']; ?></td>
                     <td><?php echo $product['type4']; ?></td>
+                    <td><?php echo $product['remark']; ?></td>
                     <td>
                         <a href="update-product.php?id=<?php echo $product["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
 

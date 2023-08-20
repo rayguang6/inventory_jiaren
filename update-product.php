@@ -27,6 +27,7 @@ if (isset($_POST['update_product'])) {
     $old_type2 = $old_product['type2'];
     $old_type3 = $old_product['type3'];
     $old_type4 = $old_product['type4'];
+    $old_remark = $old_product['remark'];
 
     // NEW DATA get from POST
     $productId = $_GET['id']; // Get the product ID from the URL
@@ -39,12 +40,13 @@ if (isset($_POST['update_product'])) {
     $type2 = $_POST['type2'];
     $type3 = $_POST['type3'];
     $type4 = $_POST['type4'];
+    $remark = $_POST['remark'];
 
-    $updateSql = "UPDATE products SET name='$name', place='$place', package='$package', lead_count='$leadCount', min_count='$minCount' , type1='$type1', type2='$type2', type3='$type3', type4='$type4' WHERE id = $productId";
+    $updateSql = "UPDATE products SET name='$name', place='$place', package='$package', lead_count='$leadCount', min_count='$minCount' , type1='$type1', type2='$type2', type3='$type3', type4='$type4', remark='$remark' WHERE id = $productId";
 
     if (mysqli_query($conn, $updateSql)) {
 
-        $actionDescription = "Updated Product#$productId from ($old_name, $old_place, $old_package, $old_leadCount, $old_minCount, $old_type1, $old_type2, $old_type3, $old_type4) to ($name, $place, $package, $leadCount, $minCount, $type1, $type2, $type3, $type4)";
+        $actionDescription = "Updated Product#$productId from ($old_name, $old_place, $old_package, $old_leadCount, $old_minCount, $old_type1, $old_type2, $old_type3, $old_type4, $old_remark) to ($name, $place, $package, $leadCount, $minCount, $type1, $type2, $type3, $type4, $remark)";
         createHistory($conn, "UPDATE", $actionDescription);
 
         header("Location: index.php");
@@ -110,7 +112,11 @@ if (isset($_POST['update_product'])) {
             </div>
             <div class="mb-3">
                 <label for="type4" class="form-label fw-bold">Type 4</label>
-                <input type="text" class="form-control" placeholder="Type 4" id="type4" name="type4" required value="<?php echo $product['type4']; ?>">
+                <input type="text" class="form-control" placeholder="Type 4" id="type4" name="type4" value="<?php echo $product['type4']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="remark" class="form-label fw-bold">Remark</label>
+                <input type="text" class="form-control" placeholder="Type 4" id="type4" name="remark"  value="<?php echo $product['remark']; ?>">
             </div>
             <div class="mb-3">
                 <input type="submit" class="mt-4 btn btn-success p-4 w-100 fw-bold" value="Update Product" name="update_product"> 
