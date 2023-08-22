@@ -37,8 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportProductButton = document.getElementById('export-product-button');
     const productTable = document.getElementById('product-table');
 
+    // exportProductButton.addEventListener('click', () => {
+    //     exportTableToCSV(productTable, 'product-table.csv', [12]); // Exclude  "Action" columns
+    // });
     exportProductButton.addEventListener('click', () => {
-        exportTableToCSV(productTable, 'product-table.csv', [6, 12]); // Exclude "Status" and "Action" columns
+        const excludeColumns = [13]; // Exclude "Action" columns
+        exportTableToCSV(productTable, 'product-table.csv', excludeColumns);
     });
 });
 
@@ -51,3 +55,4 @@ document.addEventListener('DOMContentLoaded', () => {
         exportTableToCSV(historyTable, 'history-table.csv');
     });
 });
+

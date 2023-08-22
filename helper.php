@@ -1,4 +1,5 @@
 <?php
+
 function showToast($message, $type){
     echo '<div aria-live="polite" aria-atomic="true" class="position-relative" style="z-index: 100;">
     <div class="toast-container position-fixed bottom-0 end-0 m-3">
@@ -21,18 +22,11 @@ function showToast($message, $type){
 </script>';
 }
 
-// ### Create History Database
-function createHistory($conn, $action, $description){
-    $currentUser = $_SESSION['username'];
-    $insertSql = "INSERT INTO histories (username , action, description) VALUES ('$currentUser', '$action', '$description')";
-    if (mysqli_query($conn, $insertSql)) {
-        header("Location: index.php");
-    }
-}
 
-function getProductById($conn, $productId) {
-    $productId = mysqli_real_escape_string($conn, $productId); // Sanitize input
-    $query = "SELECT * FROM products WHERE id = '$productId'";
+
+function getProductById($conn, $id) {
+    $id = mysqli_real_escape_string($conn, $id); // Sanitize input
+    $query = "SELECT * FROM products WHERE id = '$id'";
     $result = mysqli_query($conn, $query);
     
     if ($result && mysqli_num_rows($result) > 0) {
@@ -46,16 +40,26 @@ function getProductById($conn, $productId) {
 // for history table actions
 function getActionPill($action) {
     
-    switch ( strtolower($action)) {
+    switch (strtolower($action)) {
         case 'create':
             return '<span class="badge rounded-pill bg-success">'. strtoupper($action) .'</span>'; // Green
-            
         case 'update':
             return '<span class="badge rounded-pill bg-primary">'. strtoupper($action) .'</span>'; // blue
         case 'delete':
             return '<span class="badge rounded-pill bg-danger">'. strtoupper($action) .'</span>'; // red
         default:
             return $action;
+    }
+}
+
+// ### Create History Database
+function createHistory($conn, $action, $description){
+    $currentUser = $_SESSION['username'];
+    $insertSql = "INSERT INTO histories (username , action, description) VALUES ('$currentUser', '$action', '$description')";
+    if (mysqli_query($conn, $insertSql)) {
+        // header("Location: index.php");
+    }else{
+        echo "Error";
     }
 }
 
