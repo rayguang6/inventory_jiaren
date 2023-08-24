@@ -103,7 +103,7 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
         </div>
         <div class="col-md-4">
             <a href="remark.php" class="text-decoration-none">
-                <div class="card alert alert-primary mb-3">
+                <div class="card alert alert-danger mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Remarks</h5>
                         <p class="card-text"><?php echo $remarkCount; ?> products</p>
@@ -120,7 +120,12 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
 <div class="p-4 ">
     <div class="d-flex my-2">
         <h2>Product Table</h2>
-        <button class="btn btn-primary ms-auto" id="export-product-button">Export to CSV</button>
+        <button class="btn btn-primary ms-auto" id="export-product-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+        Export to CSV</button>
     </div>
 
     <!-- select filter -->

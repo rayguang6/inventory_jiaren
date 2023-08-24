@@ -7,7 +7,6 @@ if (isset($_GET['id'])){
 }
 else{
 // no product id
-
 }
 
 // handle post form submit
@@ -106,7 +105,8 @@ if (isset($_POST['update_product'])) {
     if (mysqli_stmt_execute($stmt)) {
         // ... (your action history and redirect code)
         // $actionDescription = "Updated from ($old_name, $old_productId, $old_place, $old_package, $old_leadCount, $old_type1, $old_type2, $old_type3, $old_type4, $old_quantity, $old_minQuantity, $old_quantityPerSet, $old_remark) to ($name, $productId, $place, $package, $leadCount, $type1, $type2, $type3, $type4, $quantity, $minQuantity, $quantityPerSet, $remark)";
-        $actionDescription = "Updated the following fields:" . implode("   ,   ", $changedFields);
+        // $actionDescription = "Updated ($name) - " . implode("   ,   ", $changedFields);
+        $actionDescription = "Updated product: $name. Changes made to: " . implode(", ", $changedFields);
         createHistory($conn, "UPDATE", $actionDescription);
 
         header("Location: index.php");

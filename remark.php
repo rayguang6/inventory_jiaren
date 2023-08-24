@@ -14,7 +14,7 @@ $remarkProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <div class="p-4 ">
     <div class="d-flex my-2">
         <h2>Remark Table</h2>
-        <!-- <button class="btn btn-primary ms-auto" id="export-product-button">Export to CSV</button> -->
+        <button class="btn btn-primary ms-auto" id="export-remark-button">Export to CSV</button>
     </div>
     <table id="remark-table" class="table table-bordered table-striped">
         <thead class="table-primary">

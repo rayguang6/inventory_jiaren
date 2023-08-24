@@ -8,14 +8,14 @@ include_once('header.php');
 $readSql = "SELECT * FROM histories ORDER BY timestamp DESC";
 $result = mysqli_query($conn, $readSql);
 $histories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 ?>
 
 
 <div class="p-4">
     <div class="my-2 d-flex">
         <h2>Action History</h2>
-        <button class="ms-auto btn btn-primary" id="export-history-button">Export History to CSV</button>
-
+        <button class="ms-auto btn btn-primary" id="export-history-button"><i class="bi bi-download"></i> Export History to CSV</button>
     </div>
 
     <table id="history-table" class="table table-bordered table-striped">
@@ -54,9 +54,9 @@ $histories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $(document).ready(function() {
     $('#history-table').DataTable({
             columnDefs: [
-                // { width: '20%', targets: 0 }, // Adjust the width of the first column
-               
-            ]
+                // { width: '20%', targets: 0 }, 
+            ],
+            order: [[3, 'desc']]
         });
 });
 </script>
