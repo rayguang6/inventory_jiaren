@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2023 at 07:25 PM
+-- Generation Time: Sep 02, 2023 at 11:19 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -54,7 +54,18 @@ INSERT INTO `products` (`id`, `name`, `drawing_id`, `part_id`, `type`, `package`
 (70, 'TO-10 MATRIX SE DEF/BLANK DAMBAR DIE INSERT B', 'A1013', 'B1013', 'B', 'TO-10 HIGH SPEED', 'Blank', 'Dambar', 'Die Insert', 10, 'GPM', 10, 19, 0, 'checkmate\r\n'),
 (71, 'TO-10 MATRIX SE DEF/BLANK DAMBAR PUNCH B', 'U2005259', 'B5259', 'B', 'TO-10 HIGH SPEED', 'Blank', 'Dambar', 'Punch', 10, 'GPM', 10, 8, 8, ''),
 (72, 'SSOT33 6LDS AUTO GPM SE DDTS TNF PREFORM 1 PUNCH A', 'ABCD', 'DCBA', 'B', 'SSOT33-HIGH SPEED', 'Trim', 'Preform 1', 'Punch', 6, 'GPM', 10, 5, 20, 'rem\r\n\r\njack\r\n\r\n123\r\n333'),
-(73, 'SSOT33 6LDS AUTO GPM SE DDTS TNF PREFORM 1 PUNCH B', 'AA1123', 'ZYXWVUTS', 'B', 'SSOT33-HIGH SPEED', 'Trim', 'Preform 1', 'Punch', 6, 'GPM', 10, 5, 5, '');
+(73, 'SSOT33 6LDS AUTO GPM SE DDTS TNF PREFORM 1 PUNCH B', 'AA1123', 'ZYXWVUTS', 'B', 'SSOT33-HIGH SPEED', 'Trim', 'Preform 1', 'Punch', 6, 'GPM', 10, 5, 5, ''),
+(683, 'Name1', '1', '1', 'A', 'Package2', 'Type1-1', 'Type2-1', 'Type3-1', 0, '', 0, 0, 0, ''),
+(684, 'Name1', '1', '1', 'A', 'Package1', 'Type1-1', 'Type2-1', 'Type3-3', 0, '', 0, 0, 0, ''),
+(685, 'Name2', '1', '1', 'B', 'Package1', 'Type1-2', 'Type2-2', 'Type3-3', 0, '', 0, 0, 0, ''),
+(686, 'Name3', '1', '1', 'B', 'Package2', 'Type1-3', 'Type2-3', 'Type3-3', 0, '', 0, 0, 0, ''),
+(687, 'Name4', '1', '1', 'A', 'Package1', 'Type1-1', 'Type2-2', 'Type3-2', 0, '', 0, 0, 0, ''),
+(688, 'Name5', '1', '1', 'C', 'Package1', 'Type1-2', 'Type2-2', 'Type3-2', 0, '', 0, 0, 0, ''),
+(689, 'Name7', '1', '1', 'C', 'Package1', 'Type1-2', 'Type2-4', 'Type3-1', 0, '', 0, 0, 0, ''),
+(690, 'Name6', '1', '1', 'C', 'Package3', 'Type1-3', 'Type2-3', 'Type3-2', 0, '', 0, 0, 0, ''),
+(691, 'Name8', '1', '1', 'A', 'Package1', 'Type1-2', 'Type2-1', 'Type3-1', 0, '', 0, 0, 0, ''),
+(692, 'Name9', '1', '1', 'B', 'Package1', 'Type1-4', 'Type2-2', 'Type3-3', 0, '', 0, 0, 0, ''),
+(693, 'Name10', '1', '1', 'C', 'Package2', 'Type1-3', 'Type2-3', 'Type3-3', 0, '', 0, 0, 0, '');
 
 --
 -- Indexes for dumped tables
@@ -74,7 +85,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=683;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=694;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -42,7 +42,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], ".php");
 <!-- top navigation bar -->
 <!-- top navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-dark w-100 bg-success px-4">
-  <div class="container-fluid">
+  <div class="container-fluid w-100">
     <a class="navbar-brand" href="index.php">My Inventory System</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -6,97 +6,7 @@ $readSql = "SELECT * FROM products";
 $result = mysqli_query($conn, $readSql);
 $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-// Count GOOD and WARNING products
-$goodSql = "SELECT COUNT(*) AS goodCount FROM products WHERE quantity >= min_quantity AND quantity >= quantity_per_set";
-$goodResult = mysqli_query($conn, $goodSql);
-$goodResult = mysqli_query($conn, $goodSql);
-$goodRow = mysqli_fetch_assoc($goodResult);
-$goodCount = $goodRow['goodCount'];
-
-$warningSql = "SELECT COUNT(*) AS warningCount FROM products WHERE quantity < min_quantity OR quantity < quantity_per_set";
-$warningResult = mysqli_query($conn, $warningSql);
-$warningResult = mysqli_query($conn, $warningSql);
-$warningRow = mysqli_fetch_assoc($warningResult);
-$warningCount = $warningRow['warningCount'];
-
-// Count products with remarks
-$remarkSql = "SELECT COUNT(*) AS count FROM products WHERE remark IS NOT NULL AND remark <> ''";
-$remarkResult = mysqli_query($conn, $remarkSql);
-$remarkRow = mysqli_fetch_assoc($remarkResult);
-$remarkCount = $remarkRow['count'];
-
-
-// ### Function to DELETE PRODUCT 
-if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
-
-    $productId = $_GET['delete'];
-    $deleteSql = "DELETE FROM products WHERE id = $productId";
-
-    // get the product detail of deleted product to store it in action history
-    $p = getProductById($conn, $productId);
-    $name = $p['name'];
-    $drawingId = $p['drawing_id'];
-    $partId = $p['part_id'];
-    $type = $p['type'];
-    $package = $p['package'];
-    $type1 = $p['type1'];
-    $type2 = $p['type2'];
-    $type3 = $p['type3'];
-    $cost = $p['cost'];
-    $quantity = $p['quantity'];
-    $location = $p['location'];
-    $minQuantity = $p['min_quantity'];
-    $quantityPerSet = $p['quantity_per_set'];
-    $remark = $p['remark'];
-
-    if (mysqli_query($conn, $deleteSql)) {
-        // add to action history
-        $actionDescription = "Deleted ($name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark)";
-        createHistory($conn, "DELETE", $actionDescription);
-        echo '<script>window.history.back();</script>';
-        exit;
-    } else {
-        $deleteError = "Error deleting product: " . mysqli_error($conn);
-    }
-}
-
 ?>
-
-<!-- Dashboard -->
-<div class="p-4">
-    <div class="row">
-        <div class="col-md-4">
-            <a href="status.php" class="text-decoration-none">
-                <div class="card alert alert-success mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">GOOD</h5>
-                        <p class="card-text"><?php echo $goodCount; ?> products</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="status.php" class="text-decoration-none">
-                <div class="card alert alert-warning mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">WARNING</h5>
-                        <p class="card-text"><?php echo $warningCount; ?> products</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="remark.php" class="text-decoration-none">
-                <div class="card alert alert-danger mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Remarks</h5>
-                        <p class="card-text"><?php echo $remarkCount; ?> products</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
 
 
 
@@ -135,7 +45,6 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
         <select id="selectType3" class="form-select">
             <option value="">All Type3</option>
         </select>
-
     </div>
 
     <table id="product-table" class="table table-bordered table-striped w-100">
@@ -205,11 +114,11 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
 var productTable;
 
 function resetDropdowns() {
-    document.querySelector("#selectType").selectedIndex = 0;
-    document.querySelector("#selectPackage").selectedIndex = 0;
-    document.querySelector("#selectType1").selectedIndex = 0;
-    document.querySelector("#selectType2").selectedIndex = 0;
-    document.querySelector("#selectType3").selectedIndex = 0;
+    $('#selectType').val(initialUniqueType).change();
+    $('#selectPackage').val(initialUniquePackage).change();
+    $('#selectType1').val(initialUniqueType1).change();
+    $('#selectType2').val(initialUniqueType2).change();
+    $('#selectType3').val(initialUniqueType3).change();
 }
 
 window.onload = function(){ 
@@ -224,10 +133,8 @@ $(document).ready(function() {
     });
 
     var uniqueType, uniquePackage, uniqueType1, uniqueType2, uniqueType3
-    var initialUniqueType, initialUniquePackage, initialUniqueType1, initialUniqueType2, initialUniqueType3
+    
 
-    // reset dropdown to default
-    resetDropdowns();
     getAllUniqueValues()
 
     function getAllUniqueValues(){
@@ -236,7 +143,6 @@ $(document).ready(function() {
         uniqueType1 = getUniqueValues(5)
         uniqueType2 = getUniqueValues(6)
         uniqueType3 = getUniqueValues(7)
-
     }
 
     logValues()
@@ -261,7 +167,7 @@ $(document).ready(function() {
 
     $("#selectType").on('change', function() {
         var selectedValue = $(this).val();
-        updateTableByFilter(selectedValue, 3);
+        updateTableByType(selectedValue, 3);
 
         getAllUniqueValues()
         logValues()
@@ -273,7 +179,7 @@ $(document).ready(function() {
 
     $("#selectPackage").on('change', function() {
         var selectedValue = $(this).val();
-        updateTableByFilter(selectedValue, 4);
+        updateTableByType(selectedValue, 4);
 
         getAllUniqueValues()
         logValues()
@@ -284,7 +190,7 @@ $(document).ready(function() {
 
     $("#selectType1").on('change', function() {
         var selectedValue = $(this).val();
-        updateTableByFilter(selectedValue, 5);
+        updateTableByType(selectedValue, 5);
 
         getAllUniqueValues()
         logValues()
@@ -293,7 +199,7 @@ $(document).ready(function() {
     });
     $("#selectType2").on('change', function() {
         var selectedValue = $(this).val();
-        updateTableByFilter(selectedValue, 6);
+        updateTableByType(selectedValue, 6);
 
         getAllUniqueValues()
         logValues()
@@ -302,7 +208,7 @@ $(document).ready(function() {
 
     $("#selectType3").on('change', function() {
         var selectedValue = $(this).val();
-        updateTableByFilter(selectedValue, 7);
+        updateTableByType(selectedValue, 7);
 
         getAllUniqueValues()
         logValues()
@@ -311,7 +217,7 @@ $(document).ready(function() {
     var filteredData = productTable.column(columnIndex, { search: 'applied' }).data().toArray();
 
     // Function to update the table based on the selected dropdown value
-    function updateTableByFilter(selectedValue, columnNumber) {
+    function updateTableByType(selectedValue, columnNumber) {
         productTable.column(columnNumber).search(selectedValue).draw();
         
     }
@@ -332,6 +238,7 @@ $(document).ready(function() {
         });
     }
    
+
 });
 
 
@@ -339,37 +246,19 @@ $(document).ready(function() {
 
 
 
-$('#searchType').on('keyup', function () {
-    productTable.columns(3).search(this.value).draw();
-});
-$('#searchPackage').on('keyup', function () {
-    productTable.columns(4).search(this.value).draw();
-});
 
-$('#searchType1').on('keyup', function () {
-    productTable.columns(5).search(this.value).draw();
-});
-$('#searchType2').on('keyup', function () {
-    productTable.columns(6).search(this.value).draw();
-});
-
-$('#searchType3').on('keyup', function () {
-    productTable.columns(7).search(this.value).draw();
-});
-
-
-// function to stop propagation
-//stop clicking thru the element
-function stopPropagation(event) {
-    event.stopPropagation();
-}
+    
 
 </script>
 
 
 
 
+
+
 <?php
 include_once('footer.php');
-
 ?>
+
+
+

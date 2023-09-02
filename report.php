@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
                 // Only show the delete form to admin users
             ?>
                 <form method="POST" action="">
-                    <!-- Form fields to specify the number of history records to delete -->
+                    <!-- Form fields to sopecify the number of history records to delete -->
                     <label for="deleteCount">Number of Records to Delete:</label>
                     <input class="" type="number" name="deleteCount" id="deleteCount" min="1" required>
                     <button class="btn btn-danger" type="submit" name="delete" onclick="return confirm('Are you sure you want to delete history records?');">Delete History</button>
