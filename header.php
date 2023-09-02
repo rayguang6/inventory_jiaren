@@ -50,21 +50,21 @@ $currentPage = basename($_SERVER['PHP_SELF'], ".php");
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item fw-bold">
-          <a class="nav-link <?php if($currentPage === 'index') echo 'active'; ?>" href="index.php">Product Dashboard</a>
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item ms-4 fs-5">
+          <a class="nav-link <?php if($currentPage === 'index') echo 'active fw-bold'; ?>" href="index.php">Product Dashboard</a>
         </li>
-        <li class="nav-item fw-bold">
-          <a class="nav-link <?php if($currentPage === 'add-product') echo 'active'; ?>" href="add-product.php">Add Product</a>
+        <li class="nav-item ms-4 fs-5">
+          <a class="nav-link <?php if($currentPage === 'add-product') echo 'active fw-bold'; ?>" href="add-product.php">Add Product</a>
         </li>
-        <li class="nav-item fw-bold">
-          <a class="nav-link <?php if($currentPage === 'status') echo 'active'; ?>" href="status.php">Status</a>
+        <li class="nav-item ms-4 fs-5">
+          <a class="nav-link <?php if($currentPage === 'status') echo 'active fw-bold'; ?>" href="status.php">Status</a>
         </li>
-        <li class="nav-item fw-bold">
-          <a class="nav-link <?php if($currentPage === 'remark') echo 'active'; ?>" href="remark.php">Remark</a>
+        <li class="nav-item ms-4 fs-5">
+          <a class="nav-link <?php if($currentPage === 'remark') echo 'active fw-bold'; ?>" href="remark.php">Remark</a>
         </li>
-        <li class="nav-item fw-bold">
-          <a class="nav-link <?php if($currentPage === 'report') echo 'active'; ?>" href="report.php">Report</a>
+        <li class="nav-item ms-4 fs-5">
+          <a class="nav-link <?php if($currentPage === 'report') echo 'active fw-bold'; ?>" href="report.php">Report</a>
         </li>
       </ul>
 

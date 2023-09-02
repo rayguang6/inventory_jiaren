@@ -4,29 +4,28 @@ include_once('header.php');
 // ### CREATE PRODUCT
 if(isset($_POST['create_product'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $productId = mysqli_real_escape_string($conn, $_POST['product_id']);
-    $place = mysqli_real_escape_string($conn, $_POST['place']);
+    $drawingId = mysqli_real_escape_string($conn, $_POST['drawing_id']);
+    $partId = mysqli_real_escape_string($conn, $_POST['part_id']);
+    $type = mysqli_real_escape_string($conn, $_POST['type']);
     $package = mysqli_real_escape_string($conn, $_POST['package']);
-    $leadCount = mysqli_real_escape_string($conn, $_POST['lead_count']);
     $type1 = mysqli_real_escape_string($conn, $_POST['type1']);
     $type2 = mysqli_real_escape_string($conn, $_POST['type2']);
     $type3 = mysqli_real_escape_string($conn, $_POST['type3']);
-    $type4 = mysqli_real_escape_string($conn, $_POST['type4']);
+    $cost = mysqli_real_escape_string($conn, $_POST['cost']);
+    $location = mysqli_real_escape_string($conn, $_POST['location']);
     $quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
     $minQuantity = mysqli_real_escape_string($conn, $_POST['min_quantity']);
     $quantityPerSet = mysqli_real_escape_string($conn, $_POST['quantity_per_set']);
-    $remark = mysqli_real_escape_string($conn, $_POST['remark']);
+    $remark = trim(mysqli_real_escape_string($conn, $_POST['remark']));
 
-    $insertSql = "INSERT INTO products (name, product_id, place, package, lead_count, type1, type2, type3, type4, quantity, min_quantity, quantity_per_set, remark) VALUES ('$name', '$productId', '$place', '$package', '$leadCount', '$type1', '$type2', '$type3', '$type4', '$quantity', '$minQuantity', '$quantityPerSet', '$remark')";
+    $insertSql = "INSERT INTO products (name, drawing_id, part_id, type, package, type1, type2, type3, cost, location, quantity, min_quantity, quantity_per_set, remark) VALUES ('$name', '$drawingId', '$partId', '$type', '$package', '$type1', '$type2', '$type3', '$cost', '$location', '$quantity', '$minQuantity', '$quantityPerSet', '$remark')";
 
     if (mysqli_query($conn, $insertSql)) {
 
-        
         // add to action history
-        $actionDescription = "Created ($name, $productId, $place, $package, $leadCount, $type1, $type2, $type3, $type4, $quantity, $minQuantity, $quantityPerSet, $remark )";
-        
-        createHistory($conn, "CREATE", $actionDescription);
 
+        $actionDescription = "Created ($name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark)";
+        createHistory($conn, "CREATE", $actionDescription);
 
         echo '<script>showToast("Product created successfully.", "Success");</script>';
 
@@ -53,48 +52,53 @@ if(isset($_POST['create_product'])) {
                 <input type="text" class="form-control" placeholder="name" id="name" name="name" required>
             </div>
             <div class="mb-3">
-                <label for="product_id" class="form-label fw-bold">Product ID</label>
-                <input type="text" class="form-control" placeholder="product_id" id="product_id" name="product_id" required>
+                <label for="drawing_id" class="form-label fw-bold">Drawing ID</label>
+                <input type="text" class="form-control" placeholder="Drawing ID" id="drawing_id" name="drawing_id">
             </div>
             <div class="mb-3">
-                <label for="place" class="form-label fw-bold">Place</label>
-                <input type="text" class="form-control" placeholder="place" id="place" name="place" required>
+                <label for="part_id" class="form-label fw-bold">Part ID</label>
+                <input type="text" class="form-control" placeholder="Part ID" id="part_id" name="part_id">
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label fw-bold">Type</label>
+                <input type="text" class="form-control" placeholder="Type" id="type" name="type">
             </div>
             <div class="mb-3">
                 <label for="package" class="form-label fw-bold">Package</label>
-                <input type="text" class="form-control" placeholder="package" id="package" name="package" required >
-            </div>
-            <div class="mb-3">
-                <label for="lead_count" class="form-label fw-bold">Lead Count</label>
-                <input type="number" class="form-control" placeholder="Lead Count" id="lead_count" name="lead_count" required>
+                <input type="text" class="form-control" placeholder="package" id="package" name="package" >
             </div>
             <div class="mb-3">
                 <label for="type1" class="form-label fw-bold">Type 1</label>
-                <input type="text" class="form-control" placeholder="Type 1" id="type1" name="type1" required>
+                <input type="text" class="form-control" placeholder="Type 1" id="type1" name="type1">
             </div>
             <div class="mb-3">
                 <label for="type2" class="form-label fw-bold">Type 2</label>
-                <input type="text" class="form-control" placeholder="Type 2" id="type2" name="type2" required>
+                <input type="text" class="form-control" placeholder="Type 2" id="type2" name="type2">
             </div>
             <div class="mb-3">
                 <label for="type3" class="form-label fw-bold">Type 3</label>
-                <input type="text" class="form-control" placeholder="Type 3" id="type3" name="type3" required>
+                <input type="text" class="form-control" placeholder="Type 3" id="type3" name="type3">
+            </div>
+            
+            <div class="mb-3">
+                <label for="cost" class="form-label fw-bold">Cost</label>
+                <input type="number" class="form-control" placeholder="Cost" id="cost" name="cost">
             </div>
             <div class="mb-3">
-                <label for="type4" class="form-label fw-bold">Type 4</label>
-                <input type="text" class="form-control" placeholder="Type 4" id="type4" name="type4">
+                <label for="location" class="form-label fw-bold">Location</label>
+                <input type="text" class="form-control" placeholder="Location" id="location" name="location">
             </div>
             <div class="mb-3">
                 <label for="quantity" class="form-label fw-bold">Quantity</label>
-                <input type="number" class="form-control" placeholder="Quantity" id="quantity" name="quantity" required>
+                <input type="number" class="form-control" placeholder="Quantity" id="quantity" name="quantity">
             </div>
             <div class="mb-3">
                 <label for="min_quantity" class="form-label fw-bold">Min Quantity</label>
-                <input type="number" class="form-control" placeholder="Min Quantity" id="min_quantity" name="min_quantity" required>
+                <input type="number" class="form-control" placeholder="Min Quantity" id="min_quantity" name="min_quantity">
             </div>
             <div class="mb-3">
                 <label for="quantity_per_set" class="form-label fw-bold">Quantity Per Set</label>
-                <input type="number" class="form-control" placeholder="Quantity Per Set" id="quantity_per_set" name="quantity_per_set" required>
+                <input type="number" class="form-control" placeholder="Quantity Per Set" id="quantity_per_set" name="quantity_per_set">
             </div>
             <div class="mb-3">
                 <label for="remark" class="form-label fw-bold">Remark</label>

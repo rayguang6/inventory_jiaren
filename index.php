@@ -6,11 +6,6 @@ $readSql = "SELECT * FROM products";
 $result = mysqli_query($conn, $readSql);
 $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-// ### Calculate product status counts
-// $goodCount = 0;
-// $warningCount = 0;
-// $remarkCount = 0;
-
 // Count GOOD and WARNING products
 $goodSql = "SELECT COUNT(*) AS goodCount FROM products WHERE quantity >= min_quantity AND quantity >= quantity_per_set";
 $goodResult = mysqli_query($conn, $goodSql);
@@ -23,20 +18,12 @@ $warningResult = mysqli_query($conn, $warningSql);
 $warningResult = mysqli_query($conn, $warningSql);
 $warningRow = mysqli_fetch_assoc($warningResult);
 $warningCount = $warningRow['warningCount'];
-// while ($row = mysqli_fetch_assoc($countResult)) {
-//     if ($row['status'] === 'GOOD') {
-//         $goodCount = $row['count'];
-//     } elseif ($row['status'] === 'WARNING') {
-//         $warningCount = $row['count'];
-//     }
-// }
 
 // Count products with remarks
 $remarkSql = "SELECT COUNT(*) AS count FROM products WHERE remark IS NOT NULL AND remark <> ''";
 $remarkResult = mysqli_query($conn, $remarkSql);
 $remarkRow = mysqli_fetch_assoc($remarkResult);
 $remarkCount = $remarkRow['count'];
-
 
 
 // ### DELETE PRODUCT
@@ -48,24 +35,23 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
     // get the product detail of deleted product to store it in action history
     $p = getProductById($conn, $productId);
     $name = $p['name'];
-    $productId = $p['product_id'];
-    $place = $p['place'];
+    $drawingId = $p['drawing_id'];
+    $partId = $p['part_id'];
+    $type = $p['type'];
     $package = $p['package'];
-    $leadCount = $p['lead_count'];
     $type1 = $p['type1'];
     $type2 = $p['type2'];
     $type3 = $p['type3'];
-    $type4 = $p['type4'];
+    $cost = $p['cost'];
     $quantity = $p['quantity'];
+    $location = $p['location'];
     $minQuantity = $p['min_quantity'];
     $quantityPerSet = $p['quantity_per_set'];
     $remark = $p['remark'];
 
-    
     if (mysqli_query($conn, $deleteSql)) {
-
         // add to action history
-        $actionDescription = "Deleted ($name, $productId, $place, $package, $leadCount, $type1, $type2, $type3, $type4, $quantity, $minQuantity, $quantityPerSet, $remark)";
+        $actionDescription = "Deleted ($name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark)";
         createHistory($conn, "DELETE", $actionDescription);
 
         header("Location: index.php");
@@ -125,21 +111,19 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
             </svg>
-        Export to CSV</button>
+            Export to CSV
+        </button>
     </div>
 
     <!-- select filter -->
     <div class="d-flex my-4">
-        <select id="selectPlace" class="form-select">
-            <option value="">All Places</option>
+        
+        <select id="selectType4" class="form-select">
+            <option value="">All Type4</option>
         </select>
 
         <select id="selectPackage" class="form-select">
             <option value="">All Packages</option>
-        </select>
-
-        <select id="selectLeadCount" class="form-select">
-            <option value="">All LeadCount</option>
         </select>
 
         <select id="selectType1" class="form-select">
@@ -154,24 +138,21 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
             <option value="">All Type3</option>
         </select>
 
-        <select id="selectType4" class="form-select">
-            <option value="">All Type4</option>
-        </select>
     </div>
 
     <table id="product-table" class="table table-bordered table-striped w-100">
         <thead class="table-primary">
             <tr>
-                <!-- <th>ID</th> -->
                 <th>Name</th>
-                <th>ID</th>
-                <th>Place<input type="text" id="searchPlace" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
+                <th>Drawing ID</th>
+                <th>Part ID</th>
+                <th>Type <input type="text" id="searchType4" class="form-control" placeholder="search" onclick="stopPropagation(event)"> </th>
                 <th>Package<input type="text" id="searchPackage" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
-                <th>LeadCount<input type="text" id="searchLeadCount" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Type1<input type="text" id="searchType1" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Type2<input type="text" id="searchType2" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Type3<input type="text" id="searchType3" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
-                <th>Type4<input type="text" id="searchType4" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
+                <th>Cost<input type="text" id="searchLeadCount" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
+                <th>Location<input type="text" id="searchPlace" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Quantity</th>
                 <th>Min Quantity</th>
                 <th>Quantity Per Set</th>
@@ -183,14 +164,15 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
             <?php foreach ($products as $product) : ?>
                 <tr>
                     <td><?php echo $product['name']; ?></td>
-                    <td><?php echo $product['product_id']; ?></td>
-                    <td><?php echo $product['place']; ?></td>
+                    <td><?php echo $product['drawing_id']; ?></td>
+                    <td><?php echo $product['part_id']; ?></td>
+                    <td><?php echo $product['type']; ?></td>
                     <td><?php echo $product['package']; ?></td>
-                    <td><?php echo $product['lead_count']; ?></td>
                     <td><?php echo $product['type1']; ?></td>
                     <td><?php echo $product['type2']; ?></td>
                     <td><?php echo $product['type3']; ?></td>
-                    <td><?php echo $product['type4']; ?></td>
+                    <td><?php echo $product['cost']; ?></td>
+                    <td><?php echo $product['location']; ?></td>
                     <td><?php echo $product['quantity']; ?></td>
                     <td><?php echo $product['min_quantity']; ?></td>
                     <td><?php echo $product['quantity_per_set']; ?></td>
