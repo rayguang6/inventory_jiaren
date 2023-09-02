@@ -220,10 +220,6 @@ $(document).ready(function() {
 });
 
 
-function setUpAgainDropdownFilter(){
-}
-
-
 // Function to populate dropdown with unique values
 function populateDropdown(dropdownId, values) {
     var dropdown = $(dropdownId);
@@ -283,6 +279,7 @@ $('#searchType3').on('keyup', function () {
 function stopPropagation(event) {
     event.stopPropagation();
 }
+
 </script>
 
 
