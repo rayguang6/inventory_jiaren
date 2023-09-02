@@ -116,8 +116,8 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
     <!-- select filter -->
     <div class="d-flex my-4">
         
-        <select id="selectType4" class="form-select">
-            <option value="">All Type4</option>
+        <select id="selectType" class="form-select">
+            <option value="">All Type</option>
         </select>
 
         <select id="selectPackage" class="form-select">
@@ -144,13 +144,13 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
                 <th>Name</th>
                 <th>Drawing ID</th>
                 <th>Part ID</th>
-                <th>Type <input type="text" id="searchType4" class="form-control" placeholder="search" onclick="stopPropagation(event)"> </th>
+                <th>Type <input type="text" id="searchType" class="form-control" placeholder="search" onclick="stopPropagation(event)"> </th>
                 <th>Package<input type="text" id="searchPackage" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Type1<input type="text" id="searchType1" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Type2<input type="text" id="searchType2" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
                 <th>Type3<input type="text" id="searchType3" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
-                <th>Cost<input type="text" id="searchLeadCount" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
-                <th>Location<input type="text" id="searchPlace" class="form-control" placeholder="search" onclick="stopPropagation(event)"></th>
+                <th>Cost</th>
+                <th>Location</th>
                 <th>Quantity</th>
                 <th>Min Quantity</th>
                 <th>Quantity Per Set</th>
@@ -211,26 +211,16 @@ $(document).ready(function() {
         ]
     });
 
-    // Call setupDropdownFilter for different columns
-    setupDropdownFilter('#selectPlace', 2); // Place column
-    setupDropdownFilter('#selectPackage', 3); // Package column
-    setupDropdownFilter('#selectLeadCount', 4); // Lead Count column
+    setupDropdownFilter('#selectType', 3); // Type4 column
+    setupDropdownFilter('#selectPackage', 4); // Package column
     setupDropdownFilter('#selectType1', 5); // Type1 column
     setupDropdownFilter('#selectType2', 6); // Type2 column
     setupDropdownFilter('#selectType3', 7); // Type3 column
-    setupDropdownFilter('#selectType4', 8); // Type4 column
 
 });
 
 
 function setUpAgainDropdownFilter(){
-    setupDropdownFilter('#selectPlace', 2); // Place column
-    setupDropdownFilter('#selectPackage', 3); // Package column
-    setupDropdownFilter('#selectLeadCount', 4); // Lead Count column
-    setupDropdownFilter('#selectType1', 5); // Type1 column
-    setupDropdownFilter('#selectType2', 6); // Type2 column
-    setupDropdownFilter('#selectType3', 7); // Type3 column
-    setupDropdownFilter('#selectType4', 8); // Type4 column
 }
 
 
@@ -266,79 +256,16 @@ function setupDropdownFilter(dropdownId, columnIndex) {
 
 
 
-// Function to populate dropdown with unique values
-// function populateDropdown(dropdownId, values) {
-//     var dropdown = $(dropdownId);
-    
-//     // Clear existing options
-//     dropdown.empty().append('<option value="">All</option>');
-    
-//     // Convert values to an array
-//     var valuesArray = Array.from(values);
-    
-//     // Populate with new options
-//     valuesArray.forEach(function(value) {
-//         dropdown.append($('<option></option>').attr('value', value).text(value));
-//     });
-// }
-
-// // Function to update table based on selected dropdown value
-// function updateTableByColumn(selectedValue, columnIndex) {
-//     productTable.columns(columnIndex).search(selectedValue).draw();
-// }
-
-// // Function to handle dropdown change
-// function handleDropdownChange(dropdownId, columnIndex) {
-//     $(dropdownId).on('change', function() {
-//         var selectedValue = $(this).val();
-//         updateTableByColumn(selectedValue, columnIndex);
-//     });
-// }
-
-// // Populate dropdown and attach change event handler
-// function setupDropdownFilter(dropdownId, columnIndex) {
-//     var columnValues = productTable.column(columnIndex).data().unique();
-//     populateDropdown(dropdownId, columnValues);
-//     handleDropdownChange(dropdownId, columnIndex);
-// }
-
-// function updateNextDropdown(currentDropdownId, nextDropdownId, columnIndex) {
-//     var selectedValue = $(currentDropdownId).val().trim(); // Trim whitespace
-//     var filteredColumn = productTable.column(columnIndex).data().filter(function(value) {
-//         return value.trim() === selectedValue; // Trim whitespace for comparison
-//     });
-//     var uniqueValues = Array.from(new Set(filteredColumn.toArray()));
-    
-//     populateDropdown(nextDropdownId, uniqueValues);
-// }
-
-
-// $('#selectPlace').on('change', function() {
-//     updateNextDropdown('#selectPlace', '#selectPackage', ); // Place column
-// });
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-$('#searchPlace').on('keyup', function () {
-    productTable.columns(2).search(this.value).draw();
-});
-$('#searchPackage').on('keyup', function () {
+$('#searchType').on('keyup', function () {
     productTable.columns(3).search(this.value).draw();
 });
-$('#searchLeadCount').on('keyup', function () {
+$('#searchPackage').on('keyup', function () {
     productTable.columns(4).search(this.value).draw();
 });
+
 $('#searchType1').on('keyup', function () {
     productTable.columns(5).search(this.value).draw();
 });
@@ -349,9 +276,7 @@ $('#searchType2').on('keyup', function () {
 $('#searchType3').on('keyup', function () {
     productTable.columns(7).search(this.value).draw();
 });
-$('#searchType4').on('keyup', function () {
-    productTable.columns(8).search(this.value).draw();
-});
+
 
 // function to stop propagation
 //stop clicking thru the element

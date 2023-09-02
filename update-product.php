@@ -121,7 +121,16 @@ if (isset($_POST['update_product'])) {
     mysqli_stmt_close($stmt);
 }
 
+
+// function to check if is admin, if not then set the field to disabled
+function renderDisabled() {
+    if ($_SESSION['role'] !== 'admin') {
+        echo 'readonly';
+    }
+}
+
 ?>
+
 
     <!-- Edit Product Form -->
     <div class="p-4 w-50 mx-auto">
@@ -132,43 +141,43 @@ if (isset($_POST['update_product'])) {
         <form id="" method="POST" class="mt-4 border border-4 p-4">
             <div class="mb-3">
                 <label for="name" class="form-label fw-bold">Name</label>
-                <input type="text" class="form-control" placeholder="name" id="name" name="name" value="<?php echo $product['name']; ?>">
+                <input type="text" class="form-control" placeholder="name" id="name" name="name" value="<?php echo $product['name']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="drawing_id" class="form-label fw-bold">Drawing ID</label>
-                <input type="text" class="form-control" placeholder="Drawing ID" id="drawing_id" name="drawing_id" value="<?php echo $product['drawing_id']; ?>">
+                <input type="text" class="form-control" placeholder="Drawing ID" id="drawing_id" name="drawing_id" value="<?php echo $product['drawing_id']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="part_id" class="form-label fw-bold">Part ID</label>
-                <input type="text" class="form-control" placeholder="Part ID" id="part_id" name="part_id" value="<?php echo $product['part_id']; ?>">
+                <input type="text" class="form-control" placeholder="Part ID" id="part_id" name="part_id" value="<?php echo $product['part_id']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="type" class="form-label fw-bold">Type</label>
-                <input type="text" class="form-control" placeholder="Type" id="type" name="type" value="<?php echo $product['type']; ?>">
+                <input type="text" class="form-control" placeholder="Type" id="type" name="type" value="<?php echo $product['type']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="package" class="form-label fw-bold">Package</label>
-                <input type="text" class="form-control" placeholder="package" id="package" name="package"  value="<?php echo $product['package']; ?>">
+                <input type="text" class="form-control" placeholder="package" id="package" name="package"  value="<?php echo $product['package']; ?>" <?php renderDisabled() ?> >
             </div>
             <div class="mb-3">
                 <label for="type1" class="form-label fw-bold">Type 1</label>
-                <input type="text" class="form-control" placeholder="Type 1" id="type1" name="type1" value="<?php echo $product['type1']; ?>">
+                <input type="text" class="form-control" placeholder="Type 1" id="type1" name="type1" value="<?php echo $product['type1']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="type2" class="form-label fw-bold">Type 2</label>
-                <input type="text" class="form-control" placeholder="Type 2" id="type2" name="type2" value="<?php echo $product['type2']; ?>">
+                <input type="text" class="form-control" placeholder="Type 2" id="type2" name="type2" value="<?php echo $product['type2']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="type3" class="form-label fw-bold">Type 3</label>
-                <input type="text" class="form-control" placeholder="Type 3" id="type3" name="type3" value="<?php echo $product['type3']; ?>">
+                <input type="text" class="form-control" placeholder="Type 3" id="type3" name="type3" value="<?php echo $product['type3']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="cost" class="form-label fw-bold">Cost</label>
-                <input type="number" class="form-control" placeholder="Cost" id="cost" name="cost" value="<?php echo $product['cost']; ?>">
+                <input type="number" class="form-control" placeholder="Cost" id="cost" name="cost" value="<?php echo $product['cost']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label fw-bold">Location</label>
-                <input type="text" class="form-control" placeholder="location" id="location" name="location" value="<?php echo $product['location']; ?>">
+                <input type="text" class="form-control" placeholder="location" id="location" name="location" value="<?php echo $product['location']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="quantity" class="form-label fw-bold">Quantity</label>
@@ -176,11 +185,11 @@ if (isset($_POST['update_product'])) {
             </div>
             <div class="mb-3">
                 <label for="min_quantity" class="form-label fw-bold">Min Quantity</label>
-                <input type="number" class="form-control" placeholder="Min Quantity" id="min_quantity" name="min_quantity" value="<?php echo $product['min_quantity']; ?>">
+                <input type="number" class="form-control" placeholder="Min Quantity" id="min_quantity" name="min_quantity" value="<?php echo $product['min_quantity']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="quantity_per_set" class="form-label fw-bold">Quantity Per Set</label>
-                <input type="number" class="form-control" placeholder="Quantity Per Set" id="quantity_per_set" name="quantity_per_set" value="<?php echo $product['quantity_per_set']; ?>">
+                <input type="number" class="form-control" placeholder="Quantity Per Set" id="quantity_per_set" name="quantity_per_set" value="<?php echo $product['quantity_per_set']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="remark" class="form-label fw-bold">Remark</label>
