@@ -1,36 +1,87 @@
+// const exportTableToCSV = (tableElement, filename, excludeColumns = []) => {
+//     const headerRow = Array.from(tableElement.querySelectorAll('thead th'))
+//         .filter((th, index) => !excludeColumns.includes(index))
+//         .map(th => th.textContent);
+
+//     const rows = Array.from(tableElement.querySelectorAll('tbody tr'))
+//         .map(row => Array.from(row.children)
+//             .filter((cell, index) => !excludeColumns.includes(index))
+//             // .map(cell => cell.textContent)
+//             .map(cell => {
+//                 // Exclude styled elements
+//                 const rawText = cell.textContent.replace(/\s*\[.*\]/, '');
+//                 return rawText.trim();
+//             })
+//         );
+
+//     rows.unshift(headerRow);
+
+//     const csv = Papa.unparse(rows);
+//     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+//     const url = URL.createObjectURL(blob);
+    
+//     const link = document.createElement('a');
+//     link.href = url;
+//     link.setAttribute('download', filename);
+//     link.style.display = 'none';
+//     document.body.appendChild(link);
+    
+//     link.click();
+    
+//     URL.revokeObjectURL(url);
+//     document.body.removeChild(link);
+// };
+
+
+const cleanCellValue = (cell) => {
+    // Create a temporary div element to parse and sanitize the HTML content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = cell;
+    
+    // Extract the text content from the div element and trim any leading/trailing whitespace
+    return tempDiv.textContent.trim();
+};
+
+// Modify the exportTableToCSV function to clean cell values
 const exportTableToCSV = (tableElement, filename, excludeColumns = []) => {
     const headerRow = Array.from(tableElement.querySelectorAll('thead th'))
         .filter((th, index) => !excludeColumns.includes(index))
         .map(th => th.textContent);
 
-    const rows = Array.from(tableElement.querySelectorAll('tbody tr'))
-        .map(row => Array.from(row.children)
+    const table = $(tableElement).DataTable();
+    const rows = table.rows({ search: 'applied' }).data()
+        .toArray()
+        .map(row => row
             .filter((cell, index) => !excludeColumns.includes(index))
-            // .map(cell => cell.textContent)
             .map(cell => {
-                // Exclude styled elements
-                const rawText = cell.textContent.replace(/\s*\[.*\]/, '');
-                return rawText.trim();
+                // Clean the cell value to remove HTML tags and formatting
+                const cleanedValue = cleanCellValue(cell);
+                return cleanedValue;
             })
         );
 
     rows.unshift(headerRow);
 
-    const csv = Papa.unparse(rows);
+    const csv = Papa.unparse(rows, {
+        quotes: false, // Disable quotes around cell values
+    });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    
+
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', filename);
     link.style.display = 'none';
     document.body.appendChild(link);
-    
+
     link.click();
-    
+
     URL.revokeObjectURL(url);
     document.body.removeChild(link);
 };
+
+
+
 
 // Call the function to export product table when the DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productTable = document.getElementById('product-table');
 
     exportProductButton.addEventListener('click', () => {
-        const excludeColumns = [13]; // Exclude "Action" columns
+        const excludeColumns = [14]; // Exclude "Action" columns
         exportTableToCSV(productTable, 'product-table.csv', excludeColumns);
     });
 });
@@ -65,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const goodTable = document.getElementById('status-good-table');
 
     exportGoodButton.addEventListener('click', () => {
-        const excludeColumns = [6]; // Exclude "Action" columns
+        const excludeColumns = [10]; // Exclude "Action" columns
         exportTableToCSV(goodTable, 'status-good.csv', excludeColumns);
     });
 
@@ -78,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const warningTable = document.getElementById('status-warning-table');
 
     exportWarningButton.addEventListener('click', () => {
-        const excludeColumns = [6]; // Exclude "Action" columns
+        const excludeColumns = [10]; // Exclude "Action" columns
         exportTableToCSV(warningTable, 'status-warning.csv', excludeColumns);
     });
 

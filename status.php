@@ -28,16 +28,12 @@ $goodProducts = mysqli_fetch_all($goodProductResult, MYSQLI_ASSOC);
     <table id="status-warning-table" class="table table-bordered table-striped">
         <thead class="table-danger">
             <tr>
-                <!-- <th>ID</th> -->
                 <th>Name</th>
-                <th>Product ID</th>
-                <!-- <th>Place</th>
-                <th>Package</th>
-                <th>Lead Count</th>
+                <th>Part ID</th>
                 <th>Type 1</th>
-                <th>Type 2</th>
                 <th>Type 3</th>
-                <th>Type 4</th> -->
+                <th>Cost</th>
+                <th>Location</th>
                 <th>Quantity</th>
                 <th>Min Quantity</th>
                 <th>Quantity Per Set</th>
@@ -49,37 +45,25 @@ $goodProducts = mysqli_fetch_all($goodProductResult, MYSQLI_ASSOC);
             <?php foreach ($warningProducts as $warningProduct) : ?>
                 <tr>
                     <td><?php echo $warningProduct['name']; ?></td>
-                    <td><?php echo $warningProduct['product_id']; ?></td>
-                    <!-- <td><?php //echo $warningProduct['place']; ?></td>
-                    <td><?php //echo $warningProduct['package']; ?></td>
-                    <td><?php //echo $warningProduct['lead_count']; ?></td> -->
-                    
-                    <!-- <td>
-                        <?php 
-                            // if($warningProduct['lead_count'] >= $warningProduct['min_count']){
-                            //     echo "<span class='badge bg-success'> GOOD </span>";
-                            // }else{
-                            //     echo "<span class='badge bg-danger'> WARNING </span>";
-                            // }
-                        ?>
-                    </td> -->
-                    <!-- <td><?php //echo $product['type1']; ?></td>
-                    <td><?php //echo $warningProduct['type2']; ?></td>
-                    <td><?php //echo $warningProduct['type3']; ?></td>
-                    <td><?php //echo $warningProduct['type4']; ?></td> -->
+                    <td><?php echo $warningProduct['part_id']; ?></td>
+                    <td><?php echo $warningProduct['type1']; ?></td>
+                    <td><?php echo $warningProduct['type3']; ?></td>
+                    <td><?php echo $warningProduct['cost']; ?></td>
+                    <td><?php echo $warningProduct['location']; ?></td>
                     <td><?php echo $warningProduct['quantity']; ?></td>
                     <td><?php echo $warningProduct['min_quantity']; ?></td>
                     <td><?php echo $warningProduct['quantity_per_set']; ?></td>
                     <td><?php echo $warningProduct['remark']; ?></td>
                     <td>
-                        <a href="update-product.php?id=<?php echo $warningProduct["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
+                        <div class="d-flex gap-1">
+                            <a href="update-product.php?id=<?php echo $warningProduct["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
 
-                        <?php if ($_SESSION['role'] === 'admin') : ?>
-                            <a href="index.php?delete=<?php echo $warningProduct['id']; ?>"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                        <?php endif; ?>
-
+                            <?php if ($_SESSION['role'] === 'admin') : ?>
+                                <a href="index.php?delete=<?php echo $warningProduct['id']; ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
                 
@@ -103,16 +87,12 @@ $goodProducts = mysqli_fetch_all($goodProductResult, MYSQLI_ASSOC);
     <table id="status-good-table" class="table table-bordered table-striped">
         <thead class="table-success">
             <tr>
-                <!-- <th>ID</th> -->
                 <th>Name</th>
-                <th>Product ID</th>
-                <!-- <th>Place</th>
-                <th>Package</th>
-                <th>Lead Count</th>
+                <th>Part ID</th>
                 <th>Type 1</th>
-                <th>Type 2</th>
                 <th>Type 3</th>
-                <th>Type 4</th> -->
+                <th>Cost</th>
+                <th>Location</th>
                 <th>Quantity</th>
                 <th>Min Quantity</th>
                 <th>Quantity Per Set</th>
@@ -124,37 +104,25 @@ $goodProducts = mysqli_fetch_all($goodProductResult, MYSQLI_ASSOC);
             <?php foreach ($goodProducts as $goodProduct) : ?>
                 <tr>
                     <td><?php echo $goodProduct['name']; ?></td>
-                    <td><?php echo $goodProduct['product_id']; ?></td>
-                    <!-- <td><?php //echo $goodProduct['place']; ?></td>
-                    <td><?php //echo $goodProduct['package']; ?></td>
-                    <td><?php //echo $goodProduct['lead_count']; ?></td> -->
-                    
-                    <!-- <td>
-                        <?php 
-                            // if($goodProduct['lead_count'] >= $goodProduct['min_count']){
-                            //     echo "<span class='badge bg-success'> GOOD </span>";
-                            // }else{
-                            //     echo "<span class='badge bg-danger'> WARNING </span>";
-                            // }
-                        ?>
-                    </td> -->
-                    <!-- <td><?php //echo $product['type1']; ?></td>
-                    <td><?php //echo $goodProduct['type2']; ?></td>
-                    <td><?php //echo $warningProduct['type3']; ?></td>
-                    <td><?php //echo $goodProduct['type4']; ?></td> -->
+                    <td><?php echo $goodProduct['part_id']; ?></td>
+                    <td><?php echo $goodProduct['type1']; ?></td>
+                    <td><?php echo $goodProduct['type3']; ?></td>
+                    <td><?php echo $goodProduct['cost']; ?></td>
+                    <td><?php echo $goodProduct['location']; ?></td>
                     <td><?php echo $goodProduct['quantity']; ?></td>
                     <td><?php echo $goodProduct['min_quantity']; ?></td>
                     <td><?php echo $goodProduct['quantity_per_set']; ?></td>
                     <td><?php echo $goodProduct['remark']; ?></td>
                     <td>
-                        <a href="update-product.php?id=<?php echo $goodProduct["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
+                        <div class="d-flex gap-1">
+                            <a href="update-product.php?id=<?php echo $goodProduct["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
 
-                        <?php if ($_SESSION['role'] === 'admin') : ?>
-                            <a href="index.php?delete=<?php echo $goodProduct['id']; ?>"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                        <?php endif; ?>
-
+                            <?php if ($_SESSION['role'] === 'admin') : ?>
+                                <a href="index.php?delete=<?php echo $goodProduct['id']; ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
                 

@@ -21,14 +21,15 @@ $remarkProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <tr>
                 <!-- <th>ID</th> -->
                 <th>Name</th>
-                <th>ID</th>
-                <th>Place</th>
+                <th>Drawing ID</th>
+                <th>Part ID</th>
+                <th>Type</th>
                 <th>Package</th>
-                <th>Lead Count</th>
                 <th>Type1</th>
                 <th>Type2</th>
                 <th>Type3</th>
-                <th>Type4</th>
+                <th>Cost</th>
+                <th>Location</th>
                 <th>Quantity</th>
                 <th>Min Quantity</th>
                 <th>Quantity Per Set</th>
@@ -40,36 +41,36 @@ $remarkProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <?php foreach ($remarkProducts as $remarkProduct) : ?>
                 <tr>
                     <td><?php echo $remarkProduct['name']; ?></td>
-                    <td><?php echo $remarkProduct['product_id']; ?></td>
-                    <td><?php echo $remarkProduct['place']; ?></td>
+                    <td><?php echo $remarkProduct['drawing_id']; ?></td>
+                    <td><?php echo $remarkProduct['part_id']; ?></td>
+                    <td><?php echo $remarkProduct['type']; ?></td>
                     <td><?php echo $remarkProduct['package']; ?></td>
-                    <td><?php echo $remarkProduct['lead_count']; ?></td>
-                    
-                    <!-- <td>
-                        <?php 
-                            // if($product['lead_count'] >= $product['min_count']){
-                            //     echo "<span class='badge bg-success'> GOOD </span>";
-                            // }else{
-                            //     echo "<span class='badge bg-danger'> WARNING </span>";
-                            // }
-                        ?>
-                    </td> -->
                     <td><?php echo $remarkProduct['type1']; ?></td>
                     <td><?php echo $remarkProduct['type2']; ?></td>
                     <td><?php echo $remarkProduct['type3']; ?></td>
-                    <td><?php echo $remarkProduct['type4']; ?></td>
+                    <td><?php echo $remarkProduct['cost']; ?></td>
+                    <td><?php echo $remarkProduct['location']; ?></td>
                     <td><?php echo $remarkProduct['quantity']; ?></td>
                     <td><?php echo $remarkProduct['min_quantity']; ?></td>
                     <td><?php echo $remarkProduct['quantity_per_set']; ?></td>
                     <td><?php echo $remarkProduct['remark']; ?></td>
                     <td>
-                        <a href="update-product.php?id=<?php echo $remarkProduct["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
-
-                        <?php if ($_SESSION['role'] === 'admin') : ?>
-                            <a href="index.php?delete=<?php echo $remarkProduct['id']; ?>"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                        <?php endif; ?>
+                        <div class="d-flex gap-1">
+                            <a href="update-product.php?id=<?php echo $remarkProduct["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
+    
+                            <?php if ($_SESSION['role'] === 'admin') : ?>
+                                <a href="index.php?delete=<?php echo $remarkProduct['id']; ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this product?')">
+                                <span class="delete-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                </svg>
+                                </span>
+                            </a>
+                            <?php endif; ?>
+                        </div>
 
                     </td>
                 </tr>

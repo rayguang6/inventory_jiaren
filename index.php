@@ -63,7 +63,6 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
 
 ?>
 
-
 <!-- Dashboard -->
 <div class="p-4">
     <div class="row">
@@ -178,13 +177,15 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
                     <td><?php echo $product['quantity_per_set']; ?></td>
                     <td><?php echo $product['remark']; ?></td>
                     <td>
-                        <a href="update-product.php?id=<?php echo $product["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
+                        <div class="d-flex gap-1">
+                            <a href="update-product.php?id=<?php echo $product["id"]; ?>" class="btn btn-primary btn-sm">Update</a>
 
-                        <?php if ($_SESSION['role'] === 'admin') : ?>
-                            <a href="index.php?delete=<?php echo $product['id']; ?>"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                        <?php endif; ?>
+                            <?php if ($_SESSION['role'] === 'admin') : ?>
+                                <a href="index.php?delete=<?php echo $product['id']; ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
                 
