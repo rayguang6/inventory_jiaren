@@ -109,7 +109,9 @@ if (isset($_POST['update_product'])) {
         $actionDescription = "Updated product: ($old_name, $old_partId). Changes made to: " . implode(", ", $changedFields);
         createHistory($conn, "UPDATE", $actionDescription);
 
-        header("Location: index.php");
+        echo '<script>window.history.go(-2);</script>';
+
+        // header("Location: index.php");
         exit;
     } else {
         $updateError = "Error updating product: " . mysqli_stmt_error($stmt);
@@ -190,6 +192,10 @@ if (isset($_POST['update_product'])) {
         </form>
     </div>
 
+
 <?php
 include_once('footer.php');
 ?>
+
+
+

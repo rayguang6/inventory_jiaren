@@ -26,7 +26,7 @@ $remarkRow = mysqli_fetch_assoc($remarkResult);
 $remarkCount = $remarkRow['count'];
 
 
-// ### DELETE PRODUCT
+// ### Function to DELETE PRODUCT 
 if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
 
     $productId = $_GET['delete'];
@@ -53,8 +53,7 @@ if ($_SESSION['role'] === 'admin' && isset($_GET['delete'])) {
         // add to action history
         $actionDescription = "Deleted ($name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark)";
         createHistory($conn, "DELETE", $actionDescription);
-
-        header("Location: index.php");
+        echo '<script>window.history.back();</script>';
         exit;
     } else {
         $deleteError = "Error deleting product: " . mysqli_error($conn);
