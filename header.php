@@ -21,6 +21,49 @@ if (isset($_GET['logout'])) {
 // to check current page is what, then assign active to the nav button
 $currentPage = basename($_SERVER['PHP_SELF'], ".php");
 
+//to check if the product is unique (partID AND Type3)
+function isProductUnique($conn, $partId, $type3) {
+  // Construct the SQL query
+  $checkSql = "SELECT COUNT(*) AS count FROM products WHERE part_id='$partId' AND type3='$type3'";
+  
+  // Debug: Print the SQL query
+  // echo "Debug: SQL Query: $checkSql<br>";
+  
+  // Execute the query
+  $checkResult = mysqli_query($conn, $checkSql);
+  
+  // Check for query execution errors
+  if (!$checkResult) {
+      die("Error executing query: " . mysqli_error($conn));
+  }
+  
+  // Fetch the result
+  $checkRow = mysqli_fetch_assoc($checkResult);
+  
+  // Get the count from the result
+  $existingCount = $checkRow['count'];
+  
+  // Debug: Print the count
+  // echo "Debug: Existing Count: $existingCount<br>";
+  
+  // Return true if the combination is unique (count is 0)
+  if($existingCount==0){
+    return true;
+  }else{
+    return false;
+  }
+
+}
+
+function showMessage($message, $isSuccess = true)
+{
+    $class = $isSuccess ? 'success' : 'danger';
+    $alertType = $isSuccess ? 'Success' : 'Error';
+    echo "<div class='alert alert-$class'>$alertType: $message</div>";
+}
+
+
+
 ?>
 
 
@@ -80,6 +123,20 @@ $currentPage = basename($_SERVER['PHP_SELF'], ".php");
     </div>
   </div>
 </nav>
+
+<?php
+// Check if there's a success message in the session
+if (isset($_SESSION['success_message'])) {
+  showMessage($_SESSION['success_message'], true);
+  unset($_SESSION['success_message']); // Clear the success message from the session
+}
+
+// Check if there's an error message in the session
+if (isset($_SESSION['error_message'])) {
+  showMessage($_SESSION['error_message'], false);
+  unset($_SESSION['error_message']); // Clear the error message from the session
+}
+?>
 
 
 <!-- toast container -->

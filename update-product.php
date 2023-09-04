@@ -94,31 +94,43 @@ if (isset($_POST['update_product'])) {
         $changedFields[] = "Remark: $old_remark => $remark";
     }
 
-    // Prepare the update SQL statement using placeholders
-    $updateSql = "UPDATE products SET name=?, drawing_id=?, part_id=?, type=?, package=?, type1=?, type2=?, type3=?, cost=?, location=?, quantity=?, min_quantity=?, quantity_per_set=?, remark=? WHERE id = ?";
 
-    // Create a prepared statement
-    $stmt = mysqli_prepare($conn, $updateSql);
+    if(isProductUnique($conn, $partId, $type3)){    
+        // Prepare the update SQL statement using placeholders
+        $updateSql = "UPDATE products SET name=?, drawing_id=?, part_id=?, type=?, package=?, type1=?, type2=?, type3=?, cost=?, location=?, quantity=?, min_quantity=?, quantity_per_set=?, remark=? WHERE id = ?";
 
-    // Bind parameters to the prepared statement
-    //! REMEMBER to CHANGE THE Data Type when changing order or adding fields,  the ssssis means string, integer
-    mysqli_stmt_bind_param($stmt, "ssssssssisiiisi", $name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark, $id);
+        // Create a prepared statement
+        $stmt = mysqli_prepare($conn, $updateSql);
 
-    // Execute the prepared statement
-    if (mysqli_stmt_execute($stmt)) {
-        $actionDescription = "Updated product: ($old_name, $old_partId). Changes made to: " . implode(", ", $changedFields);
-        createHistory($conn, "UPDATE", $actionDescription);
+        // Bind parameters to the prepared statement
+        //! REMEMBER to CHANGE THE Data Type when changing order or adding fields,  the ssssis means string, integer
+        mysqli_stmt_bind_param($stmt, "ssssssssisiiisi", $name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark, $id);
 
-        echo '<script>window.history.go(-2);</script>';
+        // Execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            $actionDescription = "Updated product: ($old_name, $old_partId). Changes made to: " . implode(", ", $changedFields);
+            createHistory($conn, "UPDATE", $actionDescription);
+            
 
-        // header("Location: index.php");
-        exit;
-    } else {
-        $updateError = "Error updating product: " . mysqli_stmt_error($stmt);
+            $_SESSION['success_message'] = "Product $name Edited Successfully";
+
+            echo '<script>window.history.go(-2);</script>';
+
+            // header("Location: index.php");
+            exit;
+        } else {
+            // $updateError = "Error updating product: " . mysqli_stmt_error($stmt);
+            header("Refresh:0");
+            $_SESSION['error_message'] = "Error editing product: " . mysqli_error($conn);
+
+        }
+        // Close the statement
+        mysqli_stmt_close($stmt);
     }
-
-    // Close the statement
-    mysqli_stmt_close($stmt);
+    else{
+        header("Refresh:0");
+        $_SESSION['error_message'] = "PartID: $partId & Type3: $type3 already exist in the database. Product Not Edited!";
+    }
 }
 
 
@@ -173,7 +185,7 @@ function renderDisabled() {
             </div>
             <div class="mb-3">
                 <label for="cost" class="form-label fw-bold">Cost</label>
-                <input type="number" class="form-control" placeholder="Cost" id="cost" name="cost" value="<?php echo $product['cost']; ?>" <?php renderDisabled() ?>>
+                <input type="text" class="form-control" placeholder="Cost" id="cost" name="cost" value="<?php echo $product['cost']; ?>" <?php renderDisabled() ?>>
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label fw-bold">Location</label>

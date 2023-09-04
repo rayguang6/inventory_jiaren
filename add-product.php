@@ -1,8 +1,9 @@
 <?php
 include_once('header.php');
 
+
 // ### CREATE PRODUCT
-if(isset($_POST['create_product'])) {
+if (isset($_POST['create_product'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $drawingId = mysqli_real_escape_string($conn, $_POST['drawing_id']);
     $partId = mysqli_real_escape_string($conn, $_POST['part_id']);
@@ -18,24 +19,50 @@ if(isset($_POST['create_product'])) {
     $quantityPerSet = mysqli_real_escape_string($conn, $_POST['quantity_per_set']);
     $remark = trim(mysqli_real_escape_string($conn, $_POST['remark']));
 
-    $insertSql = "INSERT INTO products (name, drawing_id, part_id, type, package, type1, type2, type3, cost, location, quantity, min_quantity, quantity_per_set, remark) VALUES ('$name', '$drawingId', '$partId', '$type', '$package', '$type1', '$type2', '$type3', '$cost', '$location', '$quantity', '$minQuantity', '$quantityPerSet', '$remark')";
 
-    if (mysqli_query($conn, $insertSql)) {
+    // $checkCountQuery = "SELECT COUNT(*) AS count FROM products WHERE part_id='$partId' AND type3='$type3'";
+    // $countResult = mysqli_query($conn, $checkCountQuery);
+    // if (!$countResult) {
+    //     die("Error executing query: " . mysqli_error($conn));
+    // }
+    
+    // $row = mysqli_fetch_assoc($countResult);
+    // $existingCount = $row['count'];
+    // echo('count = '.$existingCount);
 
-        // add to action history
+    if (isProductUnique($conn,$partId, $type3)) {
+        // Use a prepared statement to insert data safely
+        $insertSql = "INSERT INTO products (name, drawing_id, part_id, type, package, type1, type2, type3, cost, location, quantity, min_quantity, quantity_per_set, remark) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $actionDescription = "Created ($name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark)";
-        createHistory($conn, "CREATE", $actionDescription);
+        $stmt = mysqli_prepare($conn, $insertSql);
+        
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "ssssssssssssss", $name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark);
 
-        echo '<script>showToast("Product created successfully.", "Success");</script>';
+            if (mysqli_stmt_execute($stmt)) {
+                // add to action history
+                $actionDescription = "Created ($name, $drawingId, $partId, $type, $package, $type1, $type2, $type3, $cost, $location, $quantity, $minQuantity, $quantityPerSet, $remark)";
+                createHistory($conn, "CREATE", $actionDescription);
 
-        header("Location: index.php");
-
-        // TODO: Show success notification
+                $_SESSION['success_message'] = "Product $name Created Successfully";
+                header("Location: add-product.php");
+            } else {
+                $_SESSION['error_message'] = "Error creating product: " . mysqli_error($conn);
+                // Redirect back to the form or an error page
+                header("Location: add-product.php");
+            }
+        } else {
+            $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
+            // Redirect back to the form or an error page
+            header("Location: add-product.php");
+        }
     } else {
-        // TODO: show error creating product
+        // Product with the same combination of partID and Type3 already exists, display an error message
+        $_SESSION['error_message'] = "PartID: $partId & Type3: $type3 already exist in the database. Product Not Created!";
+        header("Location: add-product.php");
     }
 }
+
 
 
 ?>
@@ -82,7 +109,7 @@ if(isset($_POST['create_product'])) {
             
             <div class="mb-3">
                 <label for="cost" class="form-label fw-bold">Cost</label>
-                <input type="number" class="form-control" placeholder="Cost" id="cost" name="cost">
+                <input type="text" class="form-control" placeholder="Cost" id="cost" name="cost">
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label fw-bold">Location</label>

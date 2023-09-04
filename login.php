@@ -11,7 +11,6 @@ include 'db.php';
     <title>Login Page</title>
     <!-- Include Bootstrap CSS --><link href="bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Include Bootstrap JS --><script defer src="bootstrap/bootstrap.bundle.min.js"></script>
-
 </head>
 <body>
 
