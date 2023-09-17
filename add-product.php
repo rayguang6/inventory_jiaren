@@ -1,6 +1,11 @@
 <?php
 include_once('header.php');
 
+if($_SESSION['role'] != 'admin'){
+    echo("only admin can add product!");
+    header("Location: index.php");
+}
+
 
 // ### CREATE PRODUCT
 if (isset($_POST['create_product'])) {

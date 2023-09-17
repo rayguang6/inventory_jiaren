@@ -97,9 +97,13 @@ function showMessage($message, $isSuccess = true)
         <li class="nav-item ms-4 fs-5">
           <a class="nav-link <?php if($currentPage === 'index') echo 'active fw-bold'; ?>" href="index.php">Product Dashboard</a>
         </li>
+        
+        <?php if ($_SESSION['role'] === 'admin'): ?>
         <li class="nav-item ms-4 fs-5">
-          <a class="nav-link <?php if($currentPage === 'add-product') echo 'active fw-bold'; ?>" href="add-product.php">Add Product</a>
+            <a class="nav-link <?php if($currentPage === 'add-product') echo 'active fw-bold'; ?>" href="add-product.php">Add Product</a>
         </li>
+        <?php endif; ?>
+
         <li class="nav-item ms-4 fs-5">
           <a class="nav-link <?php if($currentPage === 'status') echo 'active fw-bold'; ?>" href="status.php">Status</a>
         </li>
