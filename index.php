@@ -2,7 +2,7 @@
 include_once('header.php');
 
 // ### Read products from database
-$readSql = "SELECT * FROM products";
+$readSql = "SELECT * FROM products ORDER BY name";
 $result = mysqli_query($conn, $readSql);
 $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
